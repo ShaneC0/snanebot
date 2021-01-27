@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 
+//MESSAGE SENDER
+
 (async() => {
 
 	const message = process.argv[2];
@@ -18,14 +20,12 @@ const puppeteer = require('puppeteer');
 	await page.type('input[name="email"]', email);
 	await page.type('input[name="password"]', password);
 	await page.click('[type="submit"]');
-
-	console.log('Logged In...');
-
 	await page.waitForSelector(`[aria-label*='${server}']`);
 	await page.waitForTimeout(1000);
 
-	await page.click(`[aria-label*='${server}']`);
+	console.log('Logged In...');
 
+	await page.click(`[aria-label*='${server}']`);
 	await page.waitForSelector(`[aria-label*='${channel}']`);
 	await page.waitForTimeout(1000);
 
@@ -35,10 +35,12 @@ const puppeteer = require('puppeteer');
 
 	console.log('Channel Selected...');
 
-	await page.type('[class*="textArea"]', "SNANEBOT: " + message);
+	await page.type('[class*="textArea"]', message);
 	await page.keyboard.press('Enter');
 
 	console.log('Message Sent...');
+	console.log('Exiting...');
+
 	await browser.close();
 })();
 
