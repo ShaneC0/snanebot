@@ -1,51 +1,45 @@
 import React, {useState} from "react";
-import reactdom from "react-dom";
+import ReactDOM from "react-dom";
 import {spawn} from "child_process";
 
 
+
 export default function App() {
+	const [channel, setChannel] = useState("");
+	const [server, setServer] = useState("");
+	const [running, setRunning] = useState(false);
+	const [serverSelected, setServerSelected] = useState(false);
+	const [channelSelected, setChannelSelected] = useState(false);
 
-	const [formObject, setFormObject] = useState({
-		email: "",
-		password: "",
-		message: "",
-		server: "",
-		channel: ""
-	});
-
-	const submit = async (e) => {
+	const executeScript = async (e) => {
 		e.preventDefault();
 
-		const bin = await spawn('node', ['scripts/post.js', formObject.message, formObject.server, formObject.channel]);
+
+		const bin = await spawn('node', ['scripts/scrape.js', server, channel]);
 
 		bin.stdout.on('data', (data) => {
-			let dataStr = `${data}`
-			console.log(dataStr)
+			console.log(data);
 		});
 
 		bin.stderr.on('data', (data) => {
-			console.log(`stderr: ${data}`);
+			console.log(`Error: ${data}`);
 		});
 
 		bin.on('close', (code) => {
-			console.log(`child process exited with code ${code}`);
+			console.log(`Process exited with code ${code}`);
 		});
 	}
 
-	return  (
+	return (
 		<div id="app">
-		<form>
 		<h1>snanebot</h1>
-		<input type="text" placeholder="email" onChange={e =>  setFormObject({ ...formObject, email: e.target.value })}/>
-		<input type="password" placeholder="password" onChange={e =>  setFormObject({ ...formObject, password: e.target.value })}/>
-		<input type="text" placeholder="message" onChange={e =>  setFormObject({ ...formObject, message: e.target.value })}/>
-		<input type="text" placeholder="server" onChange={e =>  setFormObject({ ...formObject, server: e.target.value })}/>
-		<input type="text" placeholder="channel" onChange={e =>  setFormObject({ ...formObject, channel: e.target.value })}/>
-		<button onClick={e => submit(e)}>Run</button>
+		<form>
+		<input type="text" name="server" placeholder="Server" onChange={e => setServer(e.target.value)}/>
+		<input type="text" name="channel" placeholder="Channel" onChange={e => setChannel(e.target.value)}/>
+		<button onClick={e => executeScript(e)}>Run</button>
 		</form>
 		</div>
 	)
-
 }
 
 

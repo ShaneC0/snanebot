@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
-const spawn = require('child_process').spawn;
+const sendMessage = require('./post.js');
 
 //Scraper
 
-(async () => {
+(async ()  => {
 	const server = process.argv[2];
 	const channel = process.argv[3];
 	const email = "augustgudaitis@gmail.com";
@@ -45,16 +45,8 @@ const spawn = require('child_process').spawn;
 		if(messageHandles.length > currentCount) {
 			let text = await messageHandles[messageHandles.length - 2].evaluate(n => n.innerText);
 			console.log(`Sending ${text} to ${server}/${channel}`);
-			spawnMessageProcess(text);
-			currentCount = messageHandles.length
+			currentCount = messageHandles.length;
+			await sendMessage(text);
 		}
 	}, 2000);
 })();
-
-function spawnMessageProcess(text) {
-	const process = spawn('node', ['./post.js', text]);
-
-	process.stdout.on('data', data => {
-		console.log(`Message Process: ${data}`);
-	});
-}

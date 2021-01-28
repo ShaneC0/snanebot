@@ -2,9 +2,8 @@ const puppeteer = require('puppeteer');
 
 //MESSAGE SENDER
 
-(async() => {
+async function sendMessage (message){
 
-	const message = process.argv[2];
 	const server = "Good Looks Cooks";
 	const channel = "_snanebot";
 	const email = "connors.shane@hotmail.com";
@@ -42,5 +41,6 @@ const puppeteer = require('puppeteer');
 	console.log('Exiting...');
 
 	await browser.close();
-})();
+}
 
+module.exports = sendMessage
