@@ -7,26 +7,15 @@ import {spawn} from "child_process";
 export default function App() {
 	const [channel, setChannel] = useState("");
 	const [server, setServer] = useState("");
-	const [running, setRunning] = useState(false);
-	const [serverSelected, setServerSelected] = useState(false);
-	const [channelSelected, setChannelSelected] = useState(false);
+	const [statusLine, setStatusLine] = useState("");
 
 	const executeScript = async (e) => {
 		e.preventDefault();
 
-
 		const bin = await spawn('node', ['scripts/scrape.js', server, channel]);
 
 		bin.stdout.on('data', (data) => {
-			console.log(data);
-		});
-
-		bin.stderr.on('data', (data) => {
-			console.log(`Error: ${data}`);
-		});
-
-		bin.on('close', (code) => {
-			console.log(`Process exited with code ${code}`);
+			setStatusLine(`${data}`);
 		});
 	}
 
@@ -38,6 +27,7 @@ export default function App() {
 		<input type="text" name="channel" placeholder="Channel" onChange={e => setChannel(e.target.value)}/>
 		<button onClick={e => executeScript(e)}>Run</button>
 		</form>
+		<h1>{statusLine}</h1>
 		</div>
 	)
 }

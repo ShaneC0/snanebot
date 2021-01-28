@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "main.js",
 	"scripts": {
-		"start": "webpack --config webpack.config.js && electron ."
+		"start": "electron .",
+		"watch": "webpack --watch --config webpack.config.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -16,6 +17,7 @@
 		"babel-loader": "^8.2.2",
 		"css-loader": "^5.0.1",
 		"electron": "^11.2.1",
+		"electron-reload": "^1.5.0",
 		"parcel": "^2.0.0-beta.1",
 		"puppeteer": "^5.5.0",
 		"react": "^17.0.1",
