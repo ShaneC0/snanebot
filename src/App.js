@@ -6,46 +6,88 @@ import {spawn} from "child_process";
 
 export default function App() {
 	const [statusLine, setStatusLine] = useState("");
+	const [isRunning, setIsRunning] = useState(false);
+	const [sentMessages, setSentMessages] = useState([]);
 	const [info, setInfo] = useState({
-		scrapingServer: "",
-		scrapingChannel: "",
-		sendingServer: "",
-		sendingChannel: ""
-	});
+		scrapingServer: "Good Looks Cooks",
+		scrapingChannel: "general-chat",
+		sendingServer: "Good Looks Cooks",
+		sendingChannel: "_snanebot"
+		});
 
 
 	const executeScript = async (e) => {
 		e.preventDefault();
 
-		console.log(info);
+		setIsRunning(!isRunning);
 
 		const bin = await spawn('node', ['scripts/scrape.js', info.scrapingServer, info.scrapingChannel, info.sendingServer, info.sendingChannel]);
 
 		bin.stdout.on('data', (data) => {
-			setStatusLine(`${data}`);
-		});
+
+			if(data.includes('Sending')) {
+				let broken = data.toString().trim().split(":");
+				setSentMessages(oldMessages => [...oldMessages, broken[1]]);
+				} else {
+
+					setStatusLine(`${data}`);
+					}
+
+			});
 
 		bin.stderr.on('data', data => {
 			console.log(`Error: ${data}`);
-		});
-	}
+			});
+		}
 
 	return (
 		<div id="app">
-		<form>
-		<h1>snanebot</h1>
 
-		<p>{statusLine}</p>
+		{isRunning ?
 
-		<input type="text" name="scrapingServer" placeholder="Server to scrape" onChange={e => setInfo({...info, scrapingServer: e.target.value})}/>
-		<input type="text" name="scrapingChannel" placeholder="Channel to scrape" onChange={e => setInfo({...info, scrapingChannel: e.target.value})}/>
-		<input type="text" name="sendingServer" placeholder="Server to send to" onChange={e => setInfo({...info, sendingServer: e.target.value})}/>
-		<input type="text" name="sendingChannel" placeholder="Channel to send to" onChange={e => setInfo({...info, sendingChannel: e.target.value})}/>
+		<div id="statusPage">
 
-		<button onClick={e => executeScript(e)}>Run</button>
-		</form>
+			<div>
+				<h1>Scraping from:</h1>
+				<p>{info.scrapingChannel} in {info.scrapingServer}</p>
+			</div>
+			<div>
+				<h1>Sending to:</h1>
+				<p>{info.sendingChannel} in {info.sendingServer}</p>
+			</div>
+
+			<br />
+			<h1>Status:</h1>
+			<h2 style={{'color': 'lightgreen'}}>{statusLine}</h2>
+
+			<h1>Sent Messages:</h1>
+			<div id="messagePane">
+			{sentMessages.map(message => <p>{message}</p>)}
 		</div>
-	)
+	</div>
+
+			:
+
+			<div id="formPage">
+
+				<h1>snanebot</h1>
+
+				<form>
+
+					<input type="text" name="scrapingServer" placeholder="Server to scrape" onChange={e => setInfo({...info, scrapingServer: e.target.value})}/>
+					<input type="text" name="scrapingChannel" placeholder="Channel to scrape" onChange={e => setInfo({...info, scrapingChannel: e.target.value})}/>
+					<input type="text" name="sendingServer" placeholder="Server to send to" onChange={e => setInfo({...info, sendingServer: e.target.value})}/>
+					<input type="text" name="sendingChannel" placeholder="Channel to send to" onChange={e => setInfo({...info, sendingChannel: e.target.value})}/>
+
+				</form>
+
+				<button onClick={e => executeScript(e)}>Run</button>
+
+			</div>
+			}
+
+		</div>
+		)
 }
 
 
