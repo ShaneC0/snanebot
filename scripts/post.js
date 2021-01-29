@@ -2,10 +2,8 @@ const puppeteer = require('puppeteer');
 
 //MESSAGE SENDER
 
-async function sendMessage (message){
+async function sendMessage (message, sendingServer, sendingChannel){
 
-	const server = "Good Looks Cooks";
-	const channel = "_snanebot";
 	const email = "connors.shane@hotmail.com";
 	const password = "g62bsdsc";
 
@@ -14,31 +12,20 @@ async function sendMessage (message){
 	await page.setViewport({width: 800, height: 2000});
 	await page.goto('https://discord.com/login');
 
-	console.log('Page Loaded...');
-
 	await page.type('input[name="email"]', email);
 	await page.type('input[name="password"]', password);
 	await page.click('[type="submit"]');
-	await page.waitForSelector(`[aria-label*='${server}']`);
+	await page.waitForSelector(`[aria-label*='${sendingServer}']`);
 	await page.waitForTimeout(1000);
 
-	console.log('Logged In...');
-
-	await page.click(`[aria-label*='${server}']`);
-	await page.waitForSelector(`[aria-label*='${channel}']`);
+	await page.click(`[aria-label*='${sendingServer}']`);
+	await page.waitForSelector(`[aria-label*='${sendingChannel}']`);
 	await page.waitForTimeout(1000);
 
-	console.log('Server Selected...');
-
-	await page.click(`[aria-label*='${channel}']`);
-
-	console.log('Channel Selected...');
+	await page.click(`[aria-label*='${sendingChannel}']`);
 
 	await page.type('[class*="textArea"]', message);
 	await page.keyboard.press('Enter');
-
-	console.log('Message Sent...');
-	console.log('Exiting...');
 
 	await browser.close();
 }
