@@ -9,10 +9,10 @@ export default function App() {
 	const [isRunning, setIsRunning] = useState(false);
 	const [sentMessages, setSentMessages] = useState([]);
 	const [info, setInfo] = useState({
-		scrapingServer: "Good Looks Cooks",
-		scrapingChannel: "general-chat",
-		sendingServer: "Good Looks Cooks",
-		sendingChannel: "_snanebot"
+		scrapingServer: "",
+		scrapingChannel: "",
+		sendingServer: "",
+		sendingChannel: ""
 		});
 
 
@@ -26,7 +26,7 @@ export default function App() {
 		bin.stdout.on('data', (data) => {
 
 			if(data.includes('Sending')) {
-				let broken = data.toString().trim().split(":");
+				let broken = data.toString().trim().split("Sending:");
 				setSentMessages(oldMessages => [...oldMessages, broken[1]]);
 				} else {
 
@@ -56,7 +56,6 @@ export default function App() {
 				<p>{info.sendingChannel} in {info.sendingServer}</p>
 			</div>
 
-			<br />
 			<h1>Status:</h1>
 			<h2 style={{'color': 'lightgreen'}}>{statusLine}</h2>
 
