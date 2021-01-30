@@ -46,43 +46,42 @@ export default function App() {
 		{isRunning ?
 
 		<div id="statusPage">
+			<div id="statusContainer">
+				<div>
+					<h1>Scraping from:</h1>
+					<p>{info.scrapingChannel} in {info.scrapingServer}</p>
+				</div>
+				<div>
+					<h1>Sending to:</h1>
+					<p>{info.sendingChannel} in {info.sendingServer}</p>
+				</div>
 
-			<div>
-				<h1>Scraping from:</h1>
-				<p>{info.scrapingChannel} in {info.scrapingServer}</p>
-			</div>
-			<div>
-				<h1>Sending to:</h1>
-				<p>{info.sendingChannel} in {info.sendingServer}</p>
-			</div>
+				<h1>Status:</h1>
+				<h2 style={{'color': 'lightgreen'}}>{statusLine}</h2>
 
-			<h1>Status:</h1>
-			<h2 style={{'color': 'lightgreen'}}>{statusLine}</h2>
-
-			<h1>Sent Messages:</h1>
-			<div id="messagePane">
+				<h1>Sent Messages:</h1>
+				<div id="messagePane">
 			{sentMessages.map(message => <p>{message}</p>)}
 		</div>
 	</div>
+</div>
 
-			:
+	:
 
-			<div id="formPage">
+	<div id="formPage">
 
-				<h1>snanebot</h1>
+		<form>
 
-				<form>
+			<input type="text" name="scrapingServer" placeholder="Server to scrape" onChange={e => setInfo({...info, scrapingServer: e.target.value})}/>
+			<input type="text" name="scrapingChannel" placeholder="Channel to scrape" onChange={e => setInfo({...info, scrapingChannel: e.target.value})}/>
+			<input type="text" name="sendingServer" placeholder="Server to send to" onChange={e => setInfo({...info, sendingServer: e.target.value})}/>
+			<input type="text" name="sendingChannel" placeholder="Channel to send to" onChange={e => setInfo({...info, sendingChannel: e.target.value})}/>
 
-					<input type="text" name="scrapingServer" placeholder="Server to scrape" onChange={e => setInfo({...info, scrapingServer: e.target.value})}/>
-					<input type="text" name="scrapingChannel" placeholder="Channel to scrape" onChange={e => setInfo({...info, scrapingChannel: e.target.value})}/>
-					<input type="text" name="sendingServer" placeholder="Server to send to" onChange={e => setInfo({...info, sendingServer: e.target.value})}/>
-					<input type="text" name="sendingChannel" placeholder="Channel to send to" onChange={e => setInfo({...info, sendingChannel: e.target.value})}/>
+		</form>
 
-				</form>
+		<button onClick={e => executeScript(e)}>Run</button>
 
-				<button onClick={e => executeScript(e)}>Run</button>
-
-			</div>
+	</div>
 			}
 
 		</div>
