@@ -50,7 +50,7 @@ export default function App() {
 			<h1>Snanebot</h1>
 			{isRunning ? <h2 style={{'color': 'lightgreen'}}>{statusLine}</h2> : null}
 			{currentPage}
-			{isRunning ? <div id="messagePane">{sentMessages.map((message, idx) => <p key={idx}>{message}</p>)}</div> : null}
+			{isRunning ? <div id="messagePane">Sent Messages: {sentMessages.map((message, idx) => <p key={idx}>{message}</p>)}</div> : null}
 		</div>
 	)
 }
