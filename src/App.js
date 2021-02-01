@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import ReactDOM from "react-dom";
 import {spawn} from "child_process";
+import Form from './components/Form.js';
+import Status from './components/Status.js';
 
 
 
@@ -13,79 +15,44 @@ export default function App() {
 		scrapingChannel: "",
 		sendingServer: "",
 		sendingChannel: ""
-		});
+	});
+
+	let handleChange = (e, target) => {
+		setInfo({...info, [target]: e.target.value});
+	}
 
 
-	const executeScript = async (e) => {
+	let submit = (e) => {
 		e.preventDefault();
 
-		setIsRunning(!isRunning);
+		setIsRunning(true);
 
-		const bin = await spawn('node', ['scripts/scrape.js', info.scrapingServer, info.scrapingChannel, info.sendingServer, info.sendingChannel]);
+		const bin = spawn('node', ['scripts/scrape.js', info.scrapingServer, info.scrapingChannel, info.sendingServer, info.sendingChannel]);
 
 		bin.stdout.on('data', (data) => {
-
 			if(data.includes('Sending')) {
 				let broken = data.toString().trim().split("Sending:");
-				setSentMessages(oldMessages => [...oldMessages, broken[1]]);
-				} else {
-
-					setStatusLine(`${data}`);
-					}
-
-			});
+				setSentMessages(oldMessages => [broken[1], ...oldMessages]);
+			} else {
+				setStatusLine(`${data}`);
+			};
+		});
 
 		bin.stderr.on('data', data => {
 			console.log(`Error: ${data}`);
-			});
-		}
+		});
+	}
+
+	let currentPage = isRunning ? <Status statusObject={info} sentMessages={sentMessages}/> : <Form handleChange={handleChange} submit={submit} />;
 
 	return (
 		<div id="app">
-
-		{isRunning ?
-
-		<div id="statusPage">
-			<div id="statusContainer">
-				<div>
-					<h1>Scraping from:</h1>
-					<p>{info.scrapingChannel} in {info.scrapingServer}</p>
-				</div>
-				<div>
-					<h1>Sending to:</h1>
-					<p>{info.sendingChannel} in {info.sendingServer}</p>
-				</div>
-
-				<h1>Status:</h1>
-				<h2 style={{'color': 'lightgreen'}}>{statusLine}</h2>
-
-				<h1>Sent Messages:</h1>
-				<div id="messagePane">
-			{sentMessages.map(message => <p>{message}</p>)}
+			<h1>Snanebot</h1>
+			{isRunning ? <h2 style={{'color': 'lightgreen'}}>{statusLine}</h2> : null}
+			{currentPage}
+			{isRunning ? <div id="messagePane">{sentMessages.map((message, idx) => <p key={idx}>{message}</p>)}</div> : null}
 		</div>
-	</div>
-</div>
-
-	:
-
-	<div id="formPage">
-
-		<form>
-
-			<input type="text" name="scrapingServer" placeholder="Server to scrape" onChange={e => setInfo({...info, scrapingServer: e.target.value})}/>
-			<input type="text" name="scrapingChannel" placeholder="Channel to scrape" onChange={e => setInfo({...info, scrapingChannel: e.target.value})}/>
-			<input type="text" name="sendingServer" placeholder="Server to send to" onChange={e => setInfo({...info, sendingServer: e.target.value})}/>
-			<input type="text" name="sendingChannel" placeholder="Channel to send to" onChange={e => setInfo({...info, sendingChannel: e.target.value})}/>
-
-		</form>
-
-		<button onClick={e => executeScript(e)}>Run</button>
-
-	</div>
-			}
-
-		</div>
-		)
+	)
 }
 
 

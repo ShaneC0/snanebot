@@ -1,78 +1,115 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+
+@font-face {
+	font-family: 'Yellowtail';
+	src: url('../assets/Yellowtail-Regular.ttf');
+}
+
+body {
+	position: relative;
+	color: white;
+	height: 100vh;
+	background: linear-gradient(
+	200.96deg,
+	#fedc2a -29.09%,
+	#dd5789 51.77%,
+	#7a2c9e 129.35%
+	);
 	font-family: sans-serif;
+	overflow-y: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #app {
-	height: 100vh;
-	width: 100vw;
-	color: #f2f2f2;
-	background: #04080F;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
-#header img {
-	width: 20%;
-	height: 20%
+#app h1 {
+	font-family: Yellowtail;
+	font-size: 4rem;
+	font-weight: 500;
+	text-shadow: black 0.1em 0.1em 0.2em;
 }
 
-#header h1 {
-	margin: 0 2% 0 2%;
+#statusPage {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-#formPage {
-	height: 100%;
-	width: 100%;
-	display: grid;
-	grid-template-rows: auto 20%;
-
+.statusServer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
-#formPage h1 {
-	grid-row: 1/2;
-	align-self: center;
-	justify-self: center;
-	text-decoration: underline;
+#statusPage h2 {
+	text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+button {
+	background-color: #white;
+	padding: 10px 20px;
+	margin: 10px;
+	border-radius: 10px;
+	border: none;
+	appearance: none;
+	font-size: 1.3rem;
+	box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
+	0px 18px 88px -4px rgba(24, 39, 75, 0.14);
+	transition: transform ease-in 0.1s;
+}
+
+button:hover {
+	transform: scale(1.05);
+	cursor: pointer;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	opacity: 1;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.input-group {
+	display: flex;
+	flex-direction: column;
+	margin-top: 2.5%;
+	margin-bottom: 2.5%;
 }
 
 form {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	grid-row: 1/2;
-	justify-content: space-around;
-	margin: 20% 0 20% 0;
-
 }
 
 form input {
-	width: 75%;
-	padding: 1rem;
-	font-size: 1rem;
+	background: none;
+	border: 2px solid white;
 	border-radius: 0.5rem;
-	border:1px solid  #f2f2f2;
-	background: #04080f;
-	color: #f2f2f2;
+	color: white;
+	font-size: 1rem;
+	padding: 2%;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
 }
 
 form input:focus {
 	outline: none;
-}
-
-#formPage button {
-	background: #09E85E;
-	border: none;
-	font-size: 64px;
-	color: #f2f2f2;
-	grid-row: 2/3;
-}
-
-button:hover {
-	cursor: pointer;
-}
-
-#statusPage {
-	display: flex;
-	align-items: center;
+	border: 2px solid green;
 }

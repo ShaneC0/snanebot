@@ -17,12 +17,12 @@ module.exports = {
 							'@babel/preset-env', {
 								targets: {
 									esmodules: true
-									}
-								}],
+								}
+							}],
 							'@babel/preset-react']
-						}
 					}
-				},
+				}
+			},
 			{
 				test: [/\.s[ac]ss$/i, /\.css$/i],
 				use: [
@@ -30,19 +30,19 @@ module.exports = {
 					'style-loader',
 					// Translates CSS into CommonJS
 					'css-loader',
-					],
-				},
+				],
+			},
 			{
-				test: /\.(gif|png|jpe?g|svg)$/i,
+				test: /\.(gif|png|jpe?g|svg|ttf)$/i,
 				type: 'asset/resource',
-				}
-			]
-		},
+			}
+		]
+	},
 	resolve: {
 		extensions: ['.js'],
-		},
+	},
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'build'),
-		},
+	},
 };
