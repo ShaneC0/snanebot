@@ -48,7 +48,7 @@ export default function App() {
 	return (
 		<div id="app">
 			<h1>Snanebot</h1>
-			{isRunning ? <h2 style={{'color': 'lightgreen'}}>{statusLine}</h2> : null}
+			{isRunning ? <h3 style={{'color': 'lightgreen'}}>{statusLine}</h3> : null}
 			{currentPage}
 			{isRunning ? <div id="messagePane">Sent Messages: {sentMessages.map((message, idx) => <p key={idx}>{message}</p>)}</div> : null}
 		</div>

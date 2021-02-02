@@ -19,11 +19,12 @@ body {
 	#7a2c9e 129.35%
 	);
 	font-family: sans-serif;
-	overflow-y: hidden;
+	overflow-y: auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
+
 
 #app {
 	display: flex;
@@ -36,6 +37,8 @@ body {
 	font-size: 4rem;
 	font-weight: 500;
 	text-shadow: black 0.1em 0.1em 0.2em;
+	margin-bottom: 2%;
+	margin-top: 4%;
 }
 
 #statusPage {
@@ -50,13 +53,17 @@ body {
 	align-items: center;
 }
 
+
+
 #statusPage h2 {
 	text-shadow: black 0.1em 0.1em 0.2em;
+	font-size: 1rem;
+	margin-bottom: 2%
 }
 
 button {
 	background-color: #white;
-	padding: 10px 20px;
+	padding: 5px 10px;
 	margin: 10px;
 	border-radius: 10px;
 	border: none;
