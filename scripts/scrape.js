@@ -33,7 +33,7 @@ const sendMessage = require('./post.js');
 	console.log(`Selected server ${scrapingServer}, selecting channel ${scrapingChannel}`);
 
 	await page.click(`[aria-label*="${scrapingChannel}"]`);
-	await page.waitForTimeout(500);
+	await page.waitForTimeout(1000);
 
 	console.log(`Selected channel ${scrapingChannel}, initializing...`);
 
