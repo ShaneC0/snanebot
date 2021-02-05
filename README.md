@@ -19,3 +19,5 @@ Show different screen than form when scraping
 * Current Status
 * Sent Messages
 
+REGEX FOR MATCHING TAGS
+- /[@](.*?(\s|$))/gm

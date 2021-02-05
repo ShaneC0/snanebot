@@ -50,6 +50,7 @@ const sendMessage = require('./post.js');
 			paused = true;
 			for(let i = currentCount; i < messageHandles.length; i++) {
 				let text = await messageHandles[i - 1].evaluate(n => n.innerText);
+				text = text.replace(/[@](.*?(\s|$))/gm, '');
 				console.log(`Sending: ${text}`);
 				await sendMessage(text, sendingServer, sendingChannel);
 			}
