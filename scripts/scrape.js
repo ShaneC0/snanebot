@@ -42,14 +42,19 @@ const sendMessage = require('./post.js');
 
 	console.log(`Waiting for messages...`);
 
+	let paused = false;
+
 	setInterval(async () => {
-		messageHandles = await page.$$('[class*="markup"]');
-		if(messageHandles.length > currentCount) {
-			let text = await messageHandles[messageHandles.length - 2].evaluate(n => n.innerText);
-			console.log(`Sending: ${text}`);
-			currentCount = messageHandles.length;
-			await sendMessage(text, sendingServer, sendingChannel);
-			console.log(`Waiting for messages...`);
+		if(!paused){
+			messageHandles = await page.$$('[class*="markup"]');
+			paused = true;
+			for(let i = currentCount; i < messageHandles.length; i++) {
+				let text = await messageHandles[i - 1].evaluate(n => n.innerText);
+				console.log(`Sending: ${text}`);
+				await sendMessage(text, sendingServer, sendingChannel);
 			}
-	}, 2000);
+			currentCount = messageHandles.length;
+			paused = false;
+		}
+	}, 5000);
 })();

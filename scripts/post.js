@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 
 //MESSAGE SENDER
 
-async function sendMessage (message, sendingServer, sendingChannel){
+async function sendMessage (message, sendingServer, sendingChannel)  {
 
 	const email = "connors.shane@hotmail.com";
 	const password = "g62bsdsc";
@@ -27,7 +27,10 @@ async function sendMessage (message, sendingServer, sendingChannel){
 	await page.type('[class*="textArea"]', message);
 	await page.keyboard.press('Enter');
 
+	await page.waitForTimeout(1000);
+
 	await browser.close();
 }
 
-module.exports = sendMessage
+module.exports = sendMessage;
+
